@@ -10,7 +10,40 @@
  */
 
 var wtViewRegistry;
-window.addEventListener("DOMContentLoaded", (event) => {
+window.addEventListener("DOMContentLoaded", async (event) => {
+
+    // ✅ Added: Manual authcode login for GitHub Pages
+    const url = new URL(window.location.href);
+    const authcode = url.searchParams.get("authcode");
+
+    if (authcode) {
+        const formData = new FormData();
+        formData.append("action", "clientLogin");
+        formData.append("authcode", authcode);
+        formData.append("appId", "TA-wt-dynamic-tree");
+
+        try {
+            const response = await fetch("https://api.wikitree.com/api.php", {
+                method: "POST",
+                credentials: "include",
+                body: new URLSearchParams(formData),
+            });
+
+            const result = await response.json();
+
+            if (result[0]?.status === 0) {
+                localStorage.setItem("wikitreeUser", JSON.stringify(result[0].user));
+                // Clean up URL
+                url.searchParams.delete("authcode");
+                window.history.replaceState({}, document.title, url.toString());
+            } else {
+                console.error("GitHub authcode login failed", result);
+            }
+        } catch (e) {
+            console.error("GitHub authcode login exception:", e);
+        }
+    }
+
     const loginManager = new LoginManager(
         WikiTreeAPI,
         (events = {
@@ -46,10 +79,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
     // and used the next time the user goes to this page).
     // Note: the keyword is used as part of the URL to get to the app.
     const views = {
+        "wt-dynamic-tree": new WikiTreeDynamicTreeViewer(),
         "fanchart": new FanChartView(),
         "couples": new CouplesTreeView(),
         "cctree": new CCTView(),
-        "wt-dynamic-tree": new WikiTreeDynamicTreeViewer(),
         "timeline": new TimelineView(),
         "fandoku": new FandokuView(),
         "fractal": new FractalView(),
