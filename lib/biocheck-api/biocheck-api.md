@@ -558,7 +558,7 @@ Returns **[Boolean][7]** true if something specifying a DNA source
 ### isResearchNoteBox
 
 Determine if a line is a valid Research Note Box
-assumes the leading {{ removed and line is lower case
+assumes the leading '{{' removed and line is lower case
 
 #### Parameters
 
@@ -569,7 +569,7 @@ Returns **[Boolean][7]** true if research notes box else false
 ### getResearchNoteBoxStatus
 
 Return status value for Research Note Box
-assumes the leading {{ removed and line is lower case
+assumes the leading '{{' removed and line is lower case
 
 #### Parameters
 
@@ -580,7 +580,7 @@ Returns **[String][8]** status value or blank if not a research notes box
 ### isProjectBox
 
 Determine if a line is a valid Project Box
-assumes the leading {{ removed and line is lower case
+assumes the leading '{{' removed and line is lower case
 
 #### Parameters
 
@@ -591,7 +591,7 @@ Returns **[Boolean][7]** true if research notes box else false
 ### isNavBox
 
 Determine if a line is a valid Nav Box
-assumes the leading {{ removed and line is lower case
+assumes the leading '{{' removed and line is lower case
 
 #### Parameters
 
@@ -602,7 +602,7 @@ Returns **[Boolean][7]** true if nav box else false
 ### isSticker
 
 Determine if a line is a valid Sticker
-assumes the leading {{ removed and line is lower case
+assumes the leading '{{' removed and line is lower case
 
 #### Parameters
 
