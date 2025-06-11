@@ -32,14 +32,24 @@ window.addEventListener("DOMContentLoaded", async (event) => {
             const result = await response.json();
 
             if (result[0]?.status === 0) {
-                localStorage.setItem("wikitreeUser", JSON.stringify(result[0].user));
-                // Clean up URL
-                url.searchParams.delete("authcode");
-                if (!url.hash || url.hash === "") {
-                   url.hash = `#name=${encodeURIComponent(user.Name)}&view=wt-dynamic-tree`;
-                }
-                const newUrl = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
-                window.history.replaceState({}, document.title, newUrl);
+                const user = result[0].user;
+                console.log("✅ Logged in as:", user.Name);
+                console.log("🌐 URL before cleanup:", window.location.href);
+                console.log("📦 Full user object:", user);
+
+                alert("Redirecting to your tree for: " + user.Name);
+
+              localStorage.setItem("wikitreeUser", JSON.stringify(user));
+
+               // Clean up URL
+               url.searchParams.delete("authcode");
+
+              if (!url.hash || url.hash === "") {
+                  url.hash = `#name=${encodeURIComponent(user.Name)}&view=wt-dynamic-tree`;
+              }
+
+             const newUrl = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
+              window.history.replaceState({}, document.title, newUrl);
             } else {
                 console.error("GitHub authcode login failed", result);
             }
