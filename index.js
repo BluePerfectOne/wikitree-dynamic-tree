@@ -68,6 +68,19 @@ window.addEventListener("DOMContentLoaded", async (event) => {
             },
         })
     );
+    
+    // ✅ Manually trigger login state if stored
+    const stored = localStorage.getItem("wikitreeUser");
+    if (stored) {
+        const user = JSON.parse(stored);
+        if (typeof loginManager.onLoggedIn === "function") {
+            loginManager.onLoggedIn(user);
+        } else if (loginManager._events?.onLoggedIn) {
+            loginManager._events.onLoggedIn(user);
+        }
+    }
+
+
     $("body").on("click", ".apiLogout", function (e) {
         e.preventDefault();
         loginManager.logout();
