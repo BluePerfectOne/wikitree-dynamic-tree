@@ -35,7 +35,8 @@ window.addEventListener("DOMContentLoaded", async (event) => {
                 localStorage.setItem("wikitreeUser", JSON.stringify(result[0].user));
                 // Clean up URL
                 url.searchParams.delete("authcode");
-                window.history.replaceState({}, document.title, url.pathname + url.hash);
+                const newUrl = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
+                window.history.replaceState({}, document.title, newUrl);
             } else {
                 console.error("GitHub authcode login failed", result);
             }
