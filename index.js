@@ -35,6 +35,9 @@ window.addEventListener("DOMContentLoaded", async (event) => {
                 localStorage.setItem("wikitreeUser", JSON.stringify(result[0].user));
                 // Clean up URL
                 url.searchParams.delete("authcode");
+                if (!url.hash || url.hash === "") {
+                   url.hash = `#name=${encodeURIComponent(user.Name)}&view=wt-dynamic-tree`;
+                }
                 const newUrl = url.origin + url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
                 window.history.replaceState({}, document.title, newUrl);
             } else {
